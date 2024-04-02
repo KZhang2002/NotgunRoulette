@@ -45,5 +45,7 @@ public class Manager : MonoBehaviour {
     }
 
     // Update is called once per frame
-    private void Update() { }
+    private void Update() {
+        sm.SetState(StateManager.GameState.Pause);
+    }
 }

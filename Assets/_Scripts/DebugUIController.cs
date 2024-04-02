@@ -8,13 +8,21 @@ public class DebugUIController : MonoBehaviour {
     private static DebugUIController instance;
     [SerializeField] private string startText = "Placeholder";
     [SerializeField] private string stateTextChildName = "StateText";
-    private TextMeshPro stateText;
+    private TextMeshProUGUI stateText;
     private StateManager sm;
 
     void Awake() {
         instance = this;
-        stateText = transform.Find(stateTextChildName).GetComponent<TextMeshPro>();
+        stateText = transform.Find(stateTextChildName).GetComponent<TextMeshProUGUI>();
         sm = StateManager.Get();
+
+        if (!stateText) {
+            Debug.Log("No state text child found.");
+        }
+        else {
+            Debug.Log(stateText.text);
+        }
+            
     }
 
     private void OnEnable() {
@@ -36,6 +44,13 @@ public class DebugUIController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        
+        // stateText = transform.Find(stateTextChildName).GetComponent<TextMeshPro>();
+        //
+        // if (!stateText) {
+        //     Debug.Log("No state text child found.");
+        // }
+        // else {
+        //     Debug.Log(stateText.text);
+        // }
     }
 }
