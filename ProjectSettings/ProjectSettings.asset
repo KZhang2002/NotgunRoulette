@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
+  companyName: KennyZhang
   productName: NotgunRoulette
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -925,7 +925,7 @@ PlayerSettings:
   hmiLogStartupTiming: 0
   hmiCpuConfiguration: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 1
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: 4f998357-4ce8-425e-9eca-8dd59900f414
   framebufferDepthMemorylessMode: 0
