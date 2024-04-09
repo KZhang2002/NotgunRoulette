@@ -11,6 +11,7 @@ public class StateManager {
     }
 
     private GameState state;
+    private UIController db;
     
     // subscription stuff
     public delegate void StateChangeHandler(GameState newState);
@@ -20,7 +21,10 @@ public class StateManager {
         Menu,
         Start,
         Pause,
+        Load,
         GetItems,
+        UseItem,
+        Fire,
         PlayerTurn,
         DealerTurn,
         Dead,
@@ -32,20 +36,6 @@ public class StateManager {
     {
         state = newState;
         OnStateChange?.Invoke(newState);
-    }
-}
-
-public class Manager : MonoBehaviour {
-    private StateManager sm;
-
-    // Start is called before the first frame update
-    private void Start() {
-        sm = StateManager.Get();
-        sm.SetState(StateManager.GameState.Start);
-    }
-
-    // Update is called once per frame
-    private void Update() {
-        sm.SetState(StateManager.GameState.Pause);
+        Debug.Log($"State changed to {newState}");
     }
 }
