@@ -11,7 +11,7 @@ public class StateManager {
     }
 
     private GameState state;
-    private UIController db;
+    private UIController ui;
     
     // subscription stuff
     public delegate void StateChangeHandler(GameState newState);
@@ -22,6 +22,7 @@ public class StateManager {
         Start,
         Pause,
         Load,
+        Dialogue,
         GetItems,
         UseItem,
         Fire,

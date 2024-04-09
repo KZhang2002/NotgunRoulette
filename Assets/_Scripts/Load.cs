@@ -10,21 +10,22 @@ namespace _Scripts {
         public int numTotal { get; private set; }
         private int shellIsLive = -1;
 
-        public Load(int numShells = -1) {
-            // min shells 2, max shells 8
-            numTotal = numShells < 0 ?  Random.Range(2, 9) : numShells;
-            numLive = numTotal / 2;
+        public Load(int numShells = -1, int liveNum = -1) {
+            numTotal = numShells < 0 ?  Random.Range(2, 9) : numShells; // 2 - 8 shells
+            if (liveNum < 0) numLive = liveNum;
+            else {
+                if (liveNum == 5 || liveNum == 7) {
+                    Boolean moreLive = Random.Range(0, 2) == 1; // 50 50 chance of live rounds being greater
+                    numLive = (moreLive) ? numTotal / 2 : numTotal - (numTotal / 2);
+                } else numLive = numTotal / 2;
+            }
             Debug.Log($"Total: {numTotal}, Live: {numLive}, Blank: {numTotal - numLive}");
         }
 
         public Boolean IsChamberLive() {
             if (shellIsLive == -1) {
-                if (Random.Range(0, numTotal) + 1 <= numLive) {
-                    shellIsLive = 1;
-                }
-                else {
-                    shellIsLive = 0;
-                }
+                Boolean isLive = Random.Range(0, numTotal) + 1 <= numLive;
+                shellIsLive = isLive ? 1 : 0;
             }
 
             return shellIsLive == 1;
@@ -34,8 +35,7 @@ namespace _Scripts {
             Boolean isLive;
             if (shellIsLive == -1) isLive = IsChamberLive();
             
-            // handle shell amounts
-            if (shellIsLive == 1) numLive--;
+            if (shellIsLive == 1) numLive--; // handle shell amounts
             numTotal--;
             
             isLive = shellIsLive == 1;

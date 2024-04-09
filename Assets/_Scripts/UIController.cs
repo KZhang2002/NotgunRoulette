@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Net.Mime;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 using gs = StateManager.GameState;
+using h = _Scripts.Helper;
 
 public class UIController : MonoBehaviour {
-    private static UIController instance;
+    public static UIController instance;
 
     private StateManager sm;
 
@@ -21,7 +23,7 @@ public class UIController : MonoBehaviour {
     private string logText;
 
     void Awake() {
-        instance = this;
+        if (instance == null) instance = this;
         sm = StateManager.Get();
 
         stateText = transform.Find(stateTextChildName).GetComponent<TextMeshProUGUI>();
@@ -44,8 +46,31 @@ public class UIController : MonoBehaviour {
         sm.OnStateChange -= HandleStateChange;
     }
 
+    public void DisableBtns() {
+        Button[] buttons = GetComponentsInChildren<Button>();
+        foreach (Button btn in buttons) {
+            btn.interactable = false;
+        }
+    }
+    
+    public void EnableBtns() {
+        Button[] buttons = GetComponentsInChildren<Button>();
+        foreach (Button btn in buttons) {
+            btn.interactable = true;
+        }
+    }
+
     private void HandleStateChange(gs newState) {
         stateText.text = newState.ToString();
+        
+        switch(newState) {
+            case gs.PlayerTurn:
+                EnableBtns();
+                break;
+            default:
+                DisableBtns();
+                break;
+        }
     }
 
     public void LogText(string msg) {
@@ -56,7 +81,7 @@ public class UIController : MonoBehaviour {
             int charactersToRemove = logText.Length - 1000;
             logText = logText.Substring(charactersToRemove);
         }
-
+        
         log.text = logText;
     }
 
