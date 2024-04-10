@@ -8,18 +8,32 @@ using h = _Scripts.Helper;
 
 public class GameManager : MonoBehaviour {
     public static GameManager instance = null;
-    
+
     private StateManager sm;
     private UIController ui;
     private _Scripts.Load load;
+    
+    private gs state;
 
     private int timesRepeated = 0;
 
+    // Round variables
+    private Item[] playerItems;
+    private Item[] dealerItems;
+    
+    // Load variables
     private int healthLimit;
-    private int playersHealth;
-    private int dealersHealth;
-
-    private int stageNum = 0; // 0 is tutorial stage, 1 - 2 is normal, 3 is final
+    private int playerHP;
+    private int dealerHP;
+    
+    // Turn variables
+    private bool isSawed = false;
+    private bool isCuffed = false;
+    
+    // 0 is tutorial round, 1 - 2 is normal, 3 is final
+    // This is GAME rounds NOT SHOTGUN rounds.
+    private int roundNum = 0; 
+    
 
     [SerializeField] private float stdDelay = 4f;
 
@@ -39,14 +53,27 @@ public class GameManager : MonoBehaviour {
             return instance;
         }
     }
-
+    
     private void Awake() {
         if (instance == null) instance = this;
+        sm = StateManager.Get();
+    }
+
+    private void OnEnable() {
+        sm.OnStateChange += HandleStateChange;
+    }
+
+    private void OnDisable() {
+        sm.OnStateChange -= HandleStateChange;
+    }
+
+    private void HandleStateChange(gs newState) {
+        Debug.Log("New state: " + newState.ToString());
+        state = newState;
     }
 
     // Start is called before the first frame update
     private void Start() {
-        sm = StateManager.Get();
         ui = UIController.instance;
         StartGame();
     }
@@ -55,38 +82,45 @@ public class GameManager : MonoBehaviour {
         sm.SetState(gs.Start);
         // getItems()
         NewLoad(3, 1);
+        playerHP = 2;
+        dealerHP = 2;
         StartCoroutine(TutorialStartDialogue());
     }
 
     private IEnumerator TutorialStartDialogue() {
         sm.SetState(gs.Dialogue);
-        if (stageNum == 0) {
-            yield return new WaitForSeconds(stdDelay);
+        yield return new WaitForSeconds(stdDelay);
+        if (roundNum == 0) {
             ui.LogText(
-                $"A panel in the table flips up. In it are three shotgun shells. " +
+                $"A panel in the table flips over to reveal its other side. Attached to it are three shotgun shells. " +
                 "One is <color=\"red\">red</color>. The others are <color=\"blue\">blue</color>.");
-            yield return new WaitForSeconds(stdDelay);
-            ui.LogText(SayLoad() + " it says.");
-        } else {
-            yield return new WaitForSeconds(stdDelay);
-            ui.LogText(SayLoad());
+            yield return new WaitForSeconds(stdDelay * 2);
+            ui.LogText("The dealer speaks.");
+            yield return new WaitForSeconds(stdDelay / 2);
         }
-        yield return new WaitForSeconds(stdDelay);
-        ui.LogText("The dealer loads the shells into the shotgun without looking.");
-        if (stageNum == 0) {
-            yield return new WaitForSeconds(stdDelay);
-            ui.LogText(h.RandTwo(1,2) ? "\"I load the rounds in a hidden sequence.\"" : 
-                "\"The rounds go into the chamber in an unknown order.\""); //todo make it so it wont repeat this.
-        }
-        yield return new WaitForSeconds(stdDelay);
-        ui.LogText("It pumps the shotgun and then sets it down on the table.");
         
+        ui.LogText(SayLoad());
+        yield return new WaitForSeconds(stdDelay * 1.5f);
+        
+        ui.LogText("The dealer starts to load the shells into the shotgun without looking.");
         yield return new WaitForSeconds(stdDelay);
+        
+        if (roundNum == 0) {
+            ui.LogText(h.RandTwo(1, 2)
+                ? "\"I load the rounds in a hidden sequence.\""
+                : "\"The rounds go into the chamber in an unknown order.\""); //todo make it so it wont repeat this.
+            yield return new WaitForSeconds(stdDelay);
+        }
+        
+        ui.LogText("The dealer pumps the shotgun, then sets it down on the table.");
+        yield return new WaitForSeconds(stdDelay);
+        
         ui.LogText("\"Your turn.\"");
-        
+        yield return new WaitForSeconds(stdDelay/2);
+
         PlayerTurn();
     }
-    
+
     private string ShellsToString(int numRounds) {
         if (numRounds == 1) return "1 round";
         return $"{numRounds} rounds";
@@ -100,14 +134,26 @@ public class GameManager : MonoBehaviour {
         int numBlanks = load.numTotal - load.numLive;
         if (numBlanks == 1) str += "1 <color=\"blue\">blank</color>.";
         else str += $"{numBlanks} <color=\"blue\">blanks</color>.";
-        
+
         str += "\"";
         return str;
     }
 
     private void PlayerTurn() {
         sm.SetState(gs.PlayerTurn);
-        
+        //todo do stuff
+        if (isCuffed) {
+            ui.LogText("You try to grab the shotgun to take your turn only to realize you're still cuffed. " +
+                       "Your turn is skipped.");
+            DealerTurn();
+        }
+        while (state == gs.PlayerTurn || state == gs.Fire) { }
+
+        DealerTurn();
+    }
+
+    private void DealerTurn() {
+        sm.SetState(gs.DealerTurn);
     }
 
     public void NewLoad(int numShells = -1, int numLive = -1) {
@@ -118,9 +164,9 @@ public class GameManager : MonoBehaviour {
         // db.LogText(msg);
     }
 
-    public void Fire() {
+    public void Fire(bool targetIsDealer) {
         sm.SetState(gs.Fire);
-        Boolean isLive = load.UseChamber();
+        bool isLive = load.UseChamber();
         Debug.Log($"Pulled the trigger, isLive = {isLive}, {load.numTotal} shells left, {load.numLive} live.");
         if (isLive) {
             Invoke("DelayedFunction", 2f);
@@ -132,9 +178,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void UpdateHealth() {
-        
-    }
+    public void UpdateHealth() { }
 
     private void Test() {
         int numShells = 2;

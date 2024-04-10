@@ -10,7 +10,7 @@ public class StateManager {
         return instance;
     }
 
-    private GameState state;
+    public GameState state { get; private set; }
     private UIController ui;
     
     // subscription stuff

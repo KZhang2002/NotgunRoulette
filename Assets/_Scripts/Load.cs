@@ -22,17 +22,17 @@ namespace _Scripts {
             Debug.Log($"Total: {numTotal}, Live: {numLive}, Blank: {numTotal - numLive}");
         }
 
-        public Boolean IsChamberLive() {
+        public bool IsChamberLive() {
             if (shellIsLive == -1) {
-                Boolean isLive = Random.Range(0, numTotal) + 1 <= numLive;
+                bool isLive = Random.Range(0, numTotal) + 1 <= numLive;
                 shellIsLive = isLive ? 1 : 0;
             }
 
             return shellIsLive == 1;
         }
 
-        public Boolean UseChamber() {
-            Boolean isLive;
+        public bool UseChamber() {
+            bool isLive;
             if (shellIsLive == -1) isLive = IsChamberLive();
             
             if (shellIsLive == 1) numLive--; // handle shell amounts
