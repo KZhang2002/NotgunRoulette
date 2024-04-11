@@ -70,6 +70,10 @@ public class GameManager : MonoBehaviour {
     private void HandleStateChange(gs newState) {
         Debug.Log("New state: " + newState.ToString());
         state = newState;
+
+        switch (state) {
+            case gs.PlayerTurn:
+        }
     }
 
     // Start is called before the first frame update
@@ -117,8 +121,8 @@ public class GameManager : MonoBehaviour {
         
         ui.LogText("\"Your turn.\"");
         yield return new WaitForSeconds(stdDelay/2);
-
-        PlayerTurn();
+        
+        sm.SetState(gs.PlayerTurn);
     }
 
     private string ShellsToString(int numRounds) {
@@ -145,11 +149,7 @@ public class GameManager : MonoBehaviour {
         if (isCuffed) {
             ui.LogText("You try to grab the shotgun to take your turn only to realize you're still cuffed. " +
                        "Your turn is skipped.");
-            DealerTurn();
         }
-        while (state == gs.PlayerTurn || state == gs.Fire) { }
-
-        DealerTurn();
     }
 
     private void DealerTurn() {
