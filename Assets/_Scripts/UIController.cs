@@ -75,12 +75,13 @@ public class UIController : MonoBehaviour {
 
     public void LogText(string msg) {
         logText += "\n\n" + msg;
-
-        Debug.Log("Log: " + logText);
+        
         if (logText.Length > 1000) {
             int charactersToRemove = logText.Length - 1000;
             logText = logText.Substring(charactersToRemove);
         }
+        
+        Debug.Log("DIALOGUE: " + msg);
         
         log.text = logText;
     }

@@ -18,6 +18,7 @@ public class StateManager {
     public event StateChangeHandler OnStateChange;
     
     public enum GameState {
+        Tutorial,
         Menu,
         Start,
         Pause,
