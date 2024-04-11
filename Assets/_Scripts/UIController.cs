@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Mime;
 using UnityEngine;
 using TMPro;
@@ -21,6 +22,7 @@ public class UIController : MonoBehaviour {
     [SerializeField] private int logTextBufferSize = 1000;
     private TextMeshProUGUI log;
     private string logText;
+    private string logTextFull;
 
     void Awake() {
         if (instance == null) instance = this;
@@ -52,7 +54,7 @@ public class UIController : MonoBehaviour {
             btn.interactable = false;
         }
     }
-    
+
     public void EnableBtns() {
         Button[] buttons = GetComponentsInChildren<Button>();
         foreach (Button btn in buttons) {
@@ -62,8 +64,9 @@ public class UIController : MonoBehaviour {
 
     private void HandleStateChange(gs newState) {
         stateText.text = newState.ToString();
-        
-        switch(newState) {
+        logTextFull += "\n\n State changed to: " + newState;
+
+        switch (newState) {
             case gs.PlayerTurn:
                 EnableBtns();
                 break;
@@ -75,15 +78,37 @@ public class UIController : MonoBehaviour {
 
     public void LogText(string msg) {
         logText += "\n\n" + msg;
-        
+        logTextFull += "\n\n" + msg;
+
         if (logText.Length > 1000) {
             int charactersToRemove = logText.Length - 1000;
             logText = logText.Substring(charactersToRemove);
         }
-        
+
         Debug.Log("DIALOGUE: " + msg);
-        
+
         log.text = logText;
+    }
+
+    void OnApplicationQuit() {
+        Debug.Log("Starting to write log.");
+        string folderName = "SavedData";
+        string currentTime = DateTime.Now.ToString("MMMM dd, HH,mm,ss");
+        string fileName = currentTime + ".txt";
+        string folderPath = Path.Combine(Application.dataPath, folderName); // Path to the folder within Assets
+        string filePath = Path.Combine(folderPath, fileName); // Path to the file
+
+        // Create folder if not there
+        if (!Directory.Exists(folderPath)) {
+            Directory.CreateDirectory(folderPath);
+        }
+
+        // Write log
+        using (StreamWriter file = new StreamWriter(filePath)) {
+            file.Write(logTextFull);
+        }
+
+        Debug.Log("Log saved at: " + filePath);
     }
 
     void Start() { }

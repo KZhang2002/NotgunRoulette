@@ -33,6 +33,9 @@ public partial class GameManager : MonoBehaviour {
     private bool isSawed = false;
     private bool isCuffed = false;
     
+    // Anim variables
+    private bool lastRoundLive = false;
+    
     // 0 is tutorial round, 1 - 2 is normal, 3 is final
     // This is GAME rounds NOT SHOTGUN rounds.
     private int roundNum = 0;

@@ -123,7 +123,7 @@ public partial class GameManager : MonoBehaviour {
             yield return new WaitForSecondsRealtime(stdDelay);
         }
         
-        ui.LogText("The dealer pumps the shotgun, then sets it down on the table.");
+        ui.LogText("The dealer pumps the shotgun, sets it down on the table, and slides it to you.");
         yield return new WaitForSecondsRealtime(stdDelay);
         
         ui.LogText("\"Your turn.\"");
