@@ -16,18 +16,13 @@ public partial class GameManager : MonoBehaviour {
         // t = new timer();
         // indefT = new timer();
     }
-    
+
     private partial void Start() {
         ui = UIController.instance;
         am = ActionManager.instance;
-        StartCoroutine(StartGame());
+        ui.Speak(gs.Tutorial);
     }
-    
-    IEnumerator StartGame() {
-        yield return new WaitForSeconds(1f);
-        sm.SetState(gs.Tutorial);
-    }
-    
+
     // private partial void Test() {
     //     int numShells = 2;
     //     while (numShells < 9) {
@@ -75,7 +70,7 @@ public partial class GameManager : MonoBehaviour {
                 break;
             //todo gun anim goes here
             case gs.PlayerTurn:
-                StartCoroutine(PlayerTurn());
+                PlayerTurn();
                 break;
             case gs.DealerTurn:
                 DealerTurn();
@@ -101,7 +96,7 @@ public partial class GameManager : MonoBehaviour {
         SetHealth(false, 2);
         SetHealth(true, 2);
         TutorialStartDialogue(); //todo reenable
-        //sm.SetState(gs.PlayerTurn); // todo disable
+        ui.Speak(gs.PlayerTurn); // todo disable
     }
     
     private partial void TutorialStartDialogue() {
@@ -119,31 +114,25 @@ public partial class GameManager : MonoBehaviour {
         
         ui.LogText("The dealer pumps the shotgun, sets it down on the table, and slides it to you.");
         ui.LogText("\"Your turn.\"");
-        ui.Speak();
-        sm.SetState(gs.PlayerTurn);
+        ui.Speak(gs.PlayerTurn);
     }
 
-    private partial IEnumerator PlayerTurn() {
+    private partial void PlayerTurn() {
         wasLastRoundDealers = false;
         if (isPlayerCuffed >= 2) {
             ui.LogText("You try to reach out to grab the shotgun only to realize you're still cuffed. " +
                        "Your turn is skipped.");
-            sm.SetState(gs.DealerTurn);
+            ui.Speak(gs.DealerTurn);
             isPlayerCuffed = 1;
         } else if (isPlayerCuffed >= 1) {
             ui.LogText("You break the cuffs. It's your turn.");
+            ui.Speak();
             isPlayerCuffed = 0;
-        }
-
-        while (true) {
-            //Debug.Log("Playerturn pause");
-            yield return null;
-            //todo find way to pause indefinitely
         }
     }
 
     // private partial void UseItem() {
-    //     sm.SetState(gs.UseItem);
+    //     ui.Speak(gs.UseItem);
     //     //todo play anim here
     //     
     // }
@@ -152,11 +141,12 @@ public partial class GameManager : MonoBehaviour {
         wasLastRoundDealers = true;
         if (isDealerCuffed >= 2) {
             ui.LogText("\"I'm still cuffed. Your turn\".");
-            sm.SetState(gs.PlayerTurn);
+            ui.Speak(gs.PlayerTurn);                                                                       
             isDealerCuffed = 1;
         } else if (isDealerCuffed >= 1) {
             ui.LogText("The dealer breaks the cuffs.");
             ui.LogText("\"My turn.\"");
+            ui.Speak();
             isDealerCuffed = 0;
         }
         // todo placeholder logic, dealer always shoots himself
@@ -180,47 +170,46 @@ public partial class GameManager : MonoBehaviour {
         isSawed = false;
 
         if (dealerHP <= 0) {
-            sm.SetState(gs.NewRound);
+            ui.Speak(gs.NewRound);
             // Player turn must be triggered here because unity fuckery
-            sm.SetState(gs.PlayerTurn); 
+            //ui.Speak(gs.PlayerTurn); 
             return;
         }
 
         if (playerHP <= 0) {
-            sm.SetState(gs.GameLost);
             ui.LogText("You lost lol.");
+            ui.Speak(gs.GameLost);
             return;
         }
         
         if (load.numTotal <= 0) {
-            StartCoroutine(TurnoverDialogue(isShooterDealer, isTargetDealer, isLive));
+            TurnoverDialogue(isShooterDealer, isTargetDealer, isLive);
             Debug.Log("set state to new load from fire()");
-            sm.SetState(gs.NewLoad);
+            ui.Speak(gs.NewLoad);
             // Player turn must be triggered here because unity fuckery
-            sm.SetState(gs.PlayerTurn);
+            //ui.Speak(gs.PlayerTurn);
             return;
         }
         
         if (isShooterDealer == isTargetDealer && !isLive) {
             Debug.Log($"Self shot, shooter is dealer: {isShooterDealer}, target is dealer: {isTargetDealer}");
-            if (isShooterDealer) sm.SetState(gs.DealerTurn);
-            else sm.SetState(gs.PlayerTurn);
+            if (isShooterDealer) ui.Speak(gs.DealerTurn);
+            else ui.Speak(gs.PlayerTurn);
         } else {
-            if (isShooterDealer) sm.SetState(gs.PlayerTurn);
-            else sm.SetState(gs.DealerTurn);
+            if (isShooterDealer) ui.Speak(gs.PlayerTurn);
+            else ui.Speak(gs.DealerTurn);
         }
 
-        StartCoroutine(TurnoverDialogue(isShooterDealer, isTargetDealer, isLive));
+        TurnoverDialogue(isShooterDealer, isTargetDealer, isLive);
     }
 
-    private partial IEnumerator TurnoverDialogue(bool isShooterDealer, bool isTargetDealer, bool isLive) {
-        yield return new WaitForSeconds(stdDelay);
+    private partial void TurnoverDialogue(bool isShooterDealer, bool isTargetDealer, bool isLive) {
         ui.LogText("Turnover dialogue here.");
         if (!isTargetDealer && isLive) ui.LogText("");
         
         if (isShooterDealer) ui.LogText("The dealer puts the shotgun down.");
         else ui.LogText("You put the shotgun back on the table.");
-        yield return new WaitForSeconds(stdDelay);
+        ui.Speak();
     }
 
     private partial void StartRound() {
@@ -229,12 +218,12 @@ public partial class GameManager : MonoBehaviour {
         ui.LogText(SayLoad(true)); // todo remove line
         Array.Clear(playerItems, 0, playerItems.Length);
         Array.Clear(dealerItems, 0, dealerItems.Length);
-        StartCoroutine(StartRoundDialogue());
+        StartRoundDialogue();
     }
 
-    private partial IEnumerator StartRoundDialogue() {
-        yield return new WaitForSeconds(stdDelay);
+    private partial void StartRoundDialogue() {
         ui.LogText("Start round dialogue here.");
+        ui.Speak();
     }
 
     private partial void StartLoad() {
@@ -246,14 +235,13 @@ public partial class GameManager : MonoBehaviour {
         // getItems()
         ClearFlags();
         NewLoad(numShells, numLive);
-        sm.SetState(gs.PlayerTurn);
+        LoadDialogue();
     }
 
-    private partial IEnumerator LoadDialogue() {
+    private partial void LoadDialogue() {
         ui.LogText("The panel in the table flips over.");
-        yield return new WaitForSeconds(stdDelay);
         ui.LogText(SayLoad(true));
-        yield return new WaitForSeconds(stdDelay);
+        ui.Speak(gs.PlayerTurn);
     }
 
     public partial void NewLoad() {
@@ -264,7 +252,6 @@ public partial class GameManager : MonoBehaviour {
         load = null;
         load = new Load(numShells, numLive);
         Debug.Log(SayLoad(false));
-        StartCoroutine(LoadDialogue());
         // string msg = $"Reloaded shotgun. {load.numLive} live shells, {load.numTotal - load.numLive} blanks";
         // db.LogText(msg);
     }
@@ -276,6 +263,7 @@ public partial class GameManager : MonoBehaviour {
         isSawed = false;
         isPlayerCuffed = 0;
         isDealerCuffed = 0;
+        ui.Speak();
     }
 
     public partial void UpdateHealth(bool targetIsDealer, int amount = -1) {
@@ -286,6 +274,7 @@ public partial class GameManager : MonoBehaviour {
         int subjectHP = targetIsDealer ? dealerHP : playerHP;
         string lifeStr = subjectHP == 1 ? "life" : "lives";
         ui.LogText($"{subject} {subjectHP} {lifeStr}."); //todo lives or charges?
+        ui.Speak();
     }
     
     public partial void SetHealth(bool targetIsDealer, int amount = -1) {
@@ -297,6 +286,7 @@ public partial class GameManager : MonoBehaviour {
         string subject = targetIsDealer ? "The dealer now has" : "You now have";
         int subjectHP = targetIsDealer ? dealerHP : playerHP;
         ui.LogText($"{subject} {subjectHP} lives."); //todo lives or charges?
+        ui.Speak();
     }
     
     public partial void InitHealth() {
@@ -306,5 +296,6 @@ public partial class GameManager : MonoBehaviour {
         playerHP = amount;
         ui.LogText($"The dealer now has {dealerHP} lives."); //todo lives or charges?
         ui.LogText($"You now have {playerHP} lives."); //todo lives or charges?
+        ui.Speak();
     }
 }

@@ -88,7 +88,7 @@ public partial class GameManager : MonoBehaviour {
 
     private partial void TutorialStartDialogue();
 
-    private partial IEnumerator PlayerTurn();
+    private partial void PlayerTurn();
 
     // private partial void UseItem() {
     //     sm.SetState(gs.UseItem);
@@ -100,11 +100,11 @@ public partial class GameManager : MonoBehaviour {
 
     public partial void Fire(bool isTargetDealer, bool isShooterDealer);
 
-    private partial IEnumerator TurnoverDialogue(bool isShooterDealer, bool isTargetDealer, bool isLive);
+    private partial void TurnoverDialogue(bool isShooterDealer, bool isTargetDealer, bool isLive);
 
     private partial void StartRound();
 
-    private partial IEnumerator StartRoundDialogue();
+    private partial void StartRoundDialogue();
 
     public partial void NewLoad();
     
@@ -114,7 +114,7 @@ public partial class GameManager : MonoBehaviour {
 
     private partial void StartLoad(int numShells, int numLive);
 
-    private partial IEnumerator LoadDialogue();
+    private partial void LoadDialogue();
     
     private partial void GameWon();
 

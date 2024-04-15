@@ -43,7 +43,7 @@ public class UIController : MonoBehaviour {
     }
 
     void Start() {
-        StartCoroutine(ExecuteLogQueue());
+        //StartCoroutine(ExecuteLogQueue());
     }
 
     private void OnEnable() {
@@ -84,20 +84,46 @@ public class UIController : MonoBehaviour {
     
     public void LogText(string[] msg) {
         foreach (string str in msg) {
-            logQueue.Enqueue(Tuple.Create(str, 2f));
+            logQueue.Enqueue(Tuple.Create(str, 1f));
         }
-        StartCoroutine(ExecuteLogQueue());
     }
 
     public void LogText(string msg) {
-        logQueue.Enqueue(Tuple.Create(msg, 2f));
+        logQueue.Enqueue(Tuple.Create(msg, 1f));
     }
 
+    public void Speak(gs state) {
+        StartCoroutine(ExecuteLogQueue(state));
+    }
+    
     public void Speak() {
         StartCoroutine(ExecuteLogQueue());
     }
 
+    public IEnumerator ExecuteLogQueue(gs state) {
+        sm.SetState(gs.Dialogue);
+        yield return new WaitForSeconds(1f);
+        while (logQueue.Count > 0) {
+            var tpl = logQueue.Dequeue();
+            string msg = tpl.Item1;
+            logText += "\n\n" + msg;
+            logTextFull += "\n\n" + msg;
+
+            if (logText.Length > 1000) {
+                int charactersToRemove = logText.Length - 1000;
+                logText = logText.Substring(charactersToRemove);
+            }
+
+            Debug.Log("DIALOGUE: " + msg);
+
+            log.text = logText;
+            yield return new WaitForSeconds(tpl.Item2);
+        }
+        sm.SetState(state);
+    }
+    
     public IEnumerator ExecuteLogQueue() {
+        sm.SetState(gs.Dialogue);
         yield return new WaitForSeconds(1f);
         while (logQueue.Count > 0) {
             var tpl = logQueue.Dequeue();

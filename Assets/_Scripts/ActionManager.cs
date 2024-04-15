@@ -48,17 +48,16 @@ namespace _Scripts {
             
             ui.LogText(msg);
             
-            StartCoroutine(FireCoR(isTargetDealer, isShooterDealer));
+            FireCoR(isTargetDealer, isShooterDealer);
         }
 
-        private IEnumerator FireCoR(bool targetIsDealer, bool isShooterDealer) {
-            yield return new WaitForSeconds(1f);
+        private void FireCoR(bool targetIsDealer, bool isShooterDealer) {
             if (!isShooterDealer) {
                 ui.LogText("You pull the trigger and...");
             } else {
                 ui.LogText("The dealer pulls the trigger and...");
             }
-            yield return new WaitForSeconds(1f);
+            ui.Speak();
             gm.Fire(targetIsDealer, isShooterDealer);
         }
         

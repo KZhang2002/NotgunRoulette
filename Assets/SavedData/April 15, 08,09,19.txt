@@ -1,0 +1,9 @@
+
+
+ State changed to: PlayerTurn
+
+ State changed to: Tutorial
+
+The panel in the table flips over.
+
+You now have 2 lives.
