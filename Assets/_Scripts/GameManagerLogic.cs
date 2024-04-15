@@ -13,6 +13,7 @@ public partial class GameManager : MonoBehaviour {
     private partial void Awake() {
         if (instance == null) instance = this;
         sm = StateManager.Get();
+        
         // t = new timer();
         // indefT = new timer();
     }
@@ -213,9 +214,11 @@ public partial class GameManager : MonoBehaviour {
     }
 
     private partial void StartRound() {
+        ui.LogText("New round!");
+        roundNum++;
         InitHealth();
         StartLoad();
-        ui.LogText(SayLoad(true)); // todo remove line
+        
         Array.Clear(playerItems, 0, playerItems.Length);
         Array.Clear(dealerItems, 0, dealerItems.Length);
         StartRoundDialogue();

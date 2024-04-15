@@ -24,6 +24,8 @@ public class UIController : MonoBehaviour {
     private string logText;
     private string logTextFull;
     private Queue<Tuple<string, float>> logQueue = new Queue<Tuple<string, float>>();
+    private Queue<IEnumerator> corQueue = new Queue<IEnumerator>();
+    private int corsRunning = 0;
 
     void Awake() {
         if (instance == null) instance = this;
@@ -44,6 +46,7 @@ public class UIController : MonoBehaviour {
 
     void Start() {
         //StartCoroutine(ExecuteLogQueue());
+        StartCoroutine(ManageCoroutines());
     }
 
     private void OnEnable() {
@@ -81,7 +84,7 @@ public class UIController : MonoBehaviour {
                 break;
         }
     }
-    
+
     public void LogText(string[] msg) {
         foreach (string str in msg) {
             logQueue.Enqueue(Tuple.Create(str, 1f));
@@ -93,11 +96,11 @@ public class UIController : MonoBehaviour {
     }
 
     public void Speak(gs state) {
-        StartCoroutine(ExecuteLogQueue(state));
+        corQueue.Enqueue(ExecuteLogQueue(state));
     }
-    
+
     public void Speak() {
-        StartCoroutine(ExecuteLogQueue());
+        corQueue.Enqueue(ExecuteLogQueue());
     }
 
     public IEnumerator ExecuteLogQueue(gs state) {
@@ -119,9 +122,10 @@ public class UIController : MonoBehaviour {
             log.text = logText;
             yield return new WaitForSeconds(tpl.Item2);
         }
+
         sm.SetState(state);
     }
-    
+
     public IEnumerator ExecuteLogQueue() {
         sm.SetState(gs.Dialogue);
         yield return new WaitForSeconds(1f);
@@ -140,6 +144,17 @@ public class UIController : MonoBehaviour {
 
             log.text = logText;
             yield return new WaitForSeconds(tpl.Item2);
+        }
+    }
+
+    IEnumerator ManageCoroutines() {
+        while (true) {
+            // If there are coroutines in the queue and no coroutine is running, start the next one
+            if (corQueue.Count > 0) {
+                StartCoroutine(corQueue.Dequeue());
+            }
+
+            yield return null;
         }
     }
 

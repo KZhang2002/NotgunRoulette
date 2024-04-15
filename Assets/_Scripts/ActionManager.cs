@@ -41,7 +41,7 @@ namespace _Scripts {
                 msg += "The dealer raises the gun and points it at ";
             }
     
-            if (isShooterDealer && isTargetDealer) msg += "itself.";
+            if (isShooterDealer && isTargetDealer) msg += "himself.";
             else if (!isShooterDealer && isTargetDealer) msg += "the dealer.";
             else if (isShooterDealer && !isTargetDealer) msg += "you.";
             else msg += "yourself.";
