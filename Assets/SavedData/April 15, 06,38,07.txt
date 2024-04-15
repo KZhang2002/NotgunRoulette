@@ -1,5 +1,11 @@
 
 
+ State changed to: PlayerTurn
+
+ State changed to: Tutorial
+
+The panel in the table flips over.
+
 You now have 2 lives.
 
 The dealer now has 2 lives.
@@ -12,8 +18,8 @@ The dealer speaks.
 
 The dealer starts to load the shells into the shotgun without looking.
 
-"I insert the rounds in an unknown sequence."
+"I insert the rounds in an unknown order."
 
-The dealer pumps the shotgun, then sets it down on the table and slides it to you.
+The dealer pumps the shotgun, sets it down on the table, and slides it to you.
 
 "Your turn."

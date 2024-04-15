@@ -1,14 +1,14 @@
 
 
- State changed to: Load
+ State changed to: Tutorial
+
+The panel in the table flips over.
 
 You now have 2 lives.
 
 The dealer now has 2 lives.
 
- State changed to: Dialogue
-
- State changed to: Tutorial
+"1 <color="red">live</color> round. 2 <color="blue">blanks</color>."
 
 A panel in the table flips over to reveal its other side. Attached to it are three shotgun shells. One is <color="red">red</color>. The others are <color="blue">blue</color>.
 
@@ -18,40 +18,34 @@ The dealer speaks.
 
 The dealer starts to load the shells into the shotgun without looking.
 
-"I insert the rounds in an unknown sequence."
+"I insert the rounds in an unknown order."
 
-The dealer pumps the shotgun, then sets it down on the table and slides it to you.
+The dealer pumps the shotgun, sets it down on the table, and slides it to you.
 
 "Your turn."
 
  State changed to: PlayerTurn
 
-You raise the gun and point it at yourself.
+ State changed to: Fire
+
+You raise the gun and point it at the dealer.
 
 You pull the trigger and...
 
  State changed to: Fire
+
+ State changed to: DealerTurn
 
 <i>click</i>
 
- State changed to: PlayerTurn
+The dealer raises the gun and points it at itself.
 
-You raise the gun and point it at yourself.
-
-You pull the trigger and...
+The dealer pulls the trigger and...
 
  State changed to: Fire
+
+ State changed to: DealerTurn
 
 <i>click</i>
 
- State changed to: PlayerTurn
-
-You raise the gun and point it at yourself.
-
-You pull the trigger and...
-
- State changed to: Fire
-
-<b>BANG!</b>
-
- State changed to: Load
+The dealer raises the gun and points it at itself.

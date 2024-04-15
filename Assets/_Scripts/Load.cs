@@ -2,6 +2,7 @@ using System;
 using System.Numerics;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using h = _Scripts.Helper;
 
 namespace _Scripts {
     public class Load {
@@ -12,11 +13,12 @@ namespace _Scripts {
 
         public Load(int numShells = -1, int liveNum = -1) {
             numTotal = numShells < 0 ?  Random.Range(2, 9) : numShells; // 2 - 8 shells
-            if (liveNum < 0) numLive = liveNum;
+            if (liveNum > -1) numLive = liveNum;
             else {
                 if (liveNum == 5 || liveNum == 7) {
-                    Boolean moreLive = Random.Range(0, 2) == 1; // 50 50 chance of live rounds being greater
-                    numLive = (moreLive) ? numTotal / 2 : numTotal - (numTotal / 2);
+                    // 50 50 chance of live rounds being one greater vs one less
+                    Boolean moreLive = h.RollRNG(1,2); 
+                    numLive = moreLive ? numTotal / 2 : numTotal - numTotal / 2;
                 } else numLive = numTotal / 2;
             }
             Debug.Log($"Total: {numTotal}, Live: {numLive}, Blank: {numTotal - numLive}");
@@ -24,10 +26,9 @@ namespace _Scripts {
 
         public bool IsChamberLive() {
             if (shellIsLive == -1) {
-                bool isLive = Random.Range(0, numTotal) + 1 <= numLive;
+                bool isLive = h.RollRNG(numLive, numTotal);
                 shellIsLive = isLive ? 1 : 0;
             }
-
             return shellIsLive == 1;
         }
 

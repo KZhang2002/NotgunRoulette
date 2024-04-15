@@ -23,6 +23,7 @@ public partial class GameManager : MonoBehaviour {
     // Round variables
     private Item[] playerItems;
     private Item[] dealerItems;
+    private Boolean wasLastRoundDealers;
     
     // Load variables
     private int healthLimit;
@@ -31,18 +32,20 @@ public partial class GameManager : MonoBehaviour {
     
     // Turn variables
     private bool isSawed = false;
-    private bool isCuffed = false;
+    private int isPlayerCuffed = 0; // 2 = just cuffed, 1 = cuffed last round, 
+    private int isDealerCuffed = 0; // 0 = not cuffed
     
     // Anim variables
     private bool lastRoundLive = false;
     
-    // 0 is tutorial round, 1 - 2 is normal, 3 is final
+    // 1 is tutorial, 2 is normal, 3 is final
     // This is GAME rounds NOT SHOTGUN rounds.
-    private int roundNum = 0;
+    private int roundNum = 1;
+    private int turnNum = 1;
     
     // Timers
-    private timer t;
-    private timer indefT;
+    // private timer t;
+    // private timer indefT;
     
 
     [SerializeField] private float stdDelay = 4f;
@@ -71,21 +74,19 @@ public partial class GameManager : MonoBehaviour {
     private partial void Start();
     
     // Unit tests
-    private partial void Test();
+    //private partial void Test();
     
     // Dialogue helper methods
     private partial string ShellsToString(int numRounds);
-    private partial string SayLoad();
+    private partial string SayLoad(bool saidByDealer);
     
     // State transition function
     private partial void HandleStateChange(gs newState);
 
     // Phase starters
     private partial void StartTutorial();
-    private partial void StartLoad();
-    public partial void NewLoad(int numShells = -1, int numLive = -1);
 
-    private partial IEnumerator TutorialStartDialogue();
+    private partial void TutorialStartDialogue();
 
     private partial IEnumerator PlayerTurn();
 
@@ -97,11 +98,31 @@ public partial class GameManager : MonoBehaviour {
 
     private partial void DealerTurn();
 
+    public partial void Fire(bool isTargetDealer, bool isShooterDealer);
+
+    private partial IEnumerator TurnoverDialogue(bool isShooterDealer, bool isTargetDealer, bool isLive);
+
+    private partial void StartRound();
+
+    private partial IEnumerator StartRoundDialogue();
+
+    public partial void NewLoad();
+    
+    public partial void NewLoad(int numShells, int numLive);
+    
+    private partial void StartLoad();
+
+    private partial void StartLoad(int numShells, int numLive);
+
+    private partial IEnumerator LoadDialogue();
+    
     private partial void GameWon();
 
-    public partial void Fire(bool isTargetDealer);
+    public partial void ClearFlags();
 
     public partial void UpdateHealth(bool targetIsDealer, int amount = -1);
 
     public partial void SetHealth(bool targetIsDealer, int amount);
+
+    public partial void InitHealth();
 }

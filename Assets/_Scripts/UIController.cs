@@ -23,10 +23,12 @@ public class UIController : MonoBehaviour {
     private TextMeshProUGUI log;
     private string logText;
     private string logTextFull;
+    private Queue<Tuple<string, float>> logQueue = new Queue<Tuple<string, float>>();
 
     void Awake() {
         if (instance == null) instance = this;
         sm = StateManager.Get();
+        //sm.OnStateChange += HandleStateChange;
 
         stateText = transform.Find(stateTextChildName).GetComponent<TextMeshProUGUI>();
         if (!stateText) Debug.Log("No state text child found.");
@@ -38,6 +40,10 @@ public class UIController : MonoBehaviour {
         else Debug.Log("Log text child found.");
 
         log.text = logText;
+    }
+
+    void Start() {
+        StartCoroutine(ExecuteLogQueue());
     }
 
     private void OnEnable() {
@@ -75,19 +81,40 @@ public class UIController : MonoBehaviour {
                 break;
         }
     }
+    
+    public void LogText(string[] msg) {
+        foreach (string str in msg) {
+            logQueue.Enqueue(Tuple.Create(str, 2f));
+        }
+        StartCoroutine(ExecuteLogQueue());
+    }
 
     public void LogText(string msg) {
-        logText += "\n\n" + msg;
-        logTextFull += "\n\n" + msg;
+        logQueue.Enqueue(Tuple.Create(msg, 2f));
+    }
 
-        if (logText.Length > 1000) {
-            int charactersToRemove = logText.Length - 1000;
-            logText = logText.Substring(charactersToRemove);
+    public void Speak() {
+        StartCoroutine(ExecuteLogQueue());
+    }
+
+    public IEnumerator ExecuteLogQueue() {
+        yield return new WaitForSeconds(1f);
+        while (logQueue.Count > 0) {
+            var tpl = logQueue.Dequeue();
+            string msg = tpl.Item1;
+            logText += "\n\n" + msg;
+            logTextFull += "\n\n" + msg;
+
+            if (logText.Length > 1000) {
+                int charactersToRemove = logText.Length - 1000;
+                logText = logText.Substring(charactersToRemove);
+            }
+
+            Debug.Log("DIALOGUE: " + msg);
+
+            log.text = logText;
+            yield return new WaitForSeconds(tpl.Item2);
         }
-
-        Debug.Log("DIALOGUE: " + msg);
-
-        log.text = logText;
     }
 
     void OnApplicationQuit() {
@@ -110,8 +137,6 @@ public class UIController : MonoBehaviour {
 
         Debug.Log("Log saved at: " + filePath);
     }
-
-    void Start() { }
 
     void Update() {
         // stateText = transform.Find(stateTextChildName).GetComponent<TextMeshPro>();

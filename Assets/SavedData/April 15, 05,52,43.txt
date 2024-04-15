@@ -1,0 +1,193 @@
+
+
+You now have 2 lives.
+
+The dealer now has 2 lives.
+
+ State changed to: Tutorial
+
+A panel in the table flips over to reveal its other side. Attached to it are three shotgun shells. One is <color="red">red</color>. The others are <color="blue">blue</color>.
+
+The dealer speaks.
+
+"1 <color="red">live</color> round. 2 <color="blue">blanks</color>."
+
+The dealer starts to load the shells into the shotgun without looking.
+
+"I insert the rounds in an unknown order."
+
+The dealer pumps the shotgun, sets it down on the table, and slides it to you.
+
+"Your turn."
+
+ State changed to: PlayerTurn
+
+ State changed to: Fire
+
+You raise the gun and point it at the dealer.
+
+You pull the trigger and...
+
+<i>click</i>
+
+ State changed to: Fire
+
+The dealer raises the gun and points it at itself.
+
+ State changed to: DealerTurn
+
+The dealer pulls the trigger and...
+
+<i>click</i>
+
+ State changed to: Fire
+
+The dealer raises the gun and points it at itself.
+
+ State changed to: DealerTurn
+
+The dealer pulls the trigger and...
+
+<b>BANG!</b>
+
+The dealer now has 1 life.
+
+The panel in the table flips over.
+
+ State changed to: PlayerTurn
+
+ State changed to: NewLoad
+
+ State changed to: PlayerTurn
+
+ State changed to: Fire
+
+You raise the gun and point it at the dealer.
+
+You pull the trigger and...
+
+<i>click</i>
+
+ State changed to: Fire
+
+The dealer raises the gun and points it at itself.
+
+ State changed to: DealerTurn
+
+The dealer pulls the trigger and...
+
+<b>BANG!</b>
+
+The dealer now has 0 lives.
+
+The dealer now has 4 lives.
+
+You now have 4 lives.
+
+The panel in the table flips over.
+
+ State changed to: PlayerTurn
+
+"2 <color="red">live</color> rounds. 3 <color="blue">blanks</color>."
+
+ State changed to: Fire
+
+You raise the gun and point it at the dealer.
+
+You pull the trigger and...
+
+<b>BANG!</b>
+
+The dealer now has 3 lives.
+
+ State changed to: Fire
+
+The dealer raises the gun and points it at itself.
+
+ State changed to: DealerTurn
+
+The dealer pulls the trigger and...
+
+<b>BANG!</b>
+
+The dealer now has 2 lives.
+
+ State changed to: PlayerTurn
+
+ State changed to: Fire
+
+You raise the gun and point it at the dealer.
+
+You pull the trigger and...
+
+<i>click</i>
+
+ State changed to: Fire
+
+The dealer raises the gun and points it at itself.
+
+ State changed to: DealerTurn
+
+The dealer pulls the trigger and...
+
+<i>click</i>
+
+ State changed to: Fire
+
+The dealer raises the gun and points it at itself.
+
+ State changed to: DealerTurn
+
+The dealer pulls the trigger and...
+
+<i>click</i>
+
+The panel in the table flips over.
+
+ State changed to: PlayerTurn
+
+ State changed to: NewLoad
+
+ State changed to: PlayerTurn
+
+ State changed to: Fire
+
+You raise the gun and point it at the dealer.
+
+You pull the trigger and...
+
+<b>BANG!</b>
+
+The dealer now has 1 life.
+
+ State changed to: Fire
+
+The dealer raises the gun and points it at itself.
+
+ State changed to: DealerTurn
+
+The dealer pulls the trigger and...
+
+<i>click</i>
+
+ State changed to: Fire
+
+The dealer raises the gun and points it at itself.
+
+ State changed to: DealerTurn
+
+The dealer pulls the trigger and...
+
+<b>BANG!</b>
+
+The dealer now has 0 lives.
+
+The dealer now has 4 lives.
+
+You now have 4 lives.
+
+The panel in the table flips over.
+
+ State changed to: PlayerTurn
+
+"4 <color="red">live</color> rounds. 4 <color="blue">blanks</color>."

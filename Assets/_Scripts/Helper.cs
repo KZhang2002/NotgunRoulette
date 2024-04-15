@@ -6,8 +6,13 @@ using Random = UnityEngine.Random;
 
 namespace _Scripts {
     public class Helper {
-        // Rng for an event with two outcomes
-        public static Boolean RandTwo(int numer, int denom) {
+        /// <summary>
+        /// Generates a random boolean value based on the probability numer/denom.
+        /// </summary>
+        /// <param name="numer">The numerator of the probability ratio.</param>
+        /// <param name="denom">The denominator of the probability ratio.</param>
+        /// <returns>True if the randomly generated value is less than the calculated probability, otherwise false.</returns>
+        public static Boolean RollRNG(int numer, int denom) {
             int num = Random.Range(0, denom);
             return (num < numer);
         }

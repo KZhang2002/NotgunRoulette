@@ -10,7 +10,7 @@ public class StateManager {
         return instance;
     }
 
-    public GameState state { get; private set; }
+    public GameState state { get; private set; } = GameState.Start;
     private UIController ui;
     
     // subscription stuff
@@ -22,7 +22,8 @@ public class StateManager {
         Menu,
         Start,
         Pause,
-        Load,
+        NewRound,
+        NewLoad,
         Dialogue,
         GetItems,
         UseItem,
@@ -34,10 +35,9 @@ public class StateManager {
         GameWon
     }
     
-    public void SetState(GameState newState)
-    {
-        state = newState;
+    public void SetState(GameState newState) {
         OnStateChange?.Invoke(newState);
+        state = newState;
         Debug.Log($"State changed to {newState}");
     }
 }
