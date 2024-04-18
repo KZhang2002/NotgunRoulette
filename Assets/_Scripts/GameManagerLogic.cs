@@ -1,11 +1,14 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using _Scripts;
 using UnityEngine;
 using gs = StateManager.GameState;
 using h = _Scripts.Helper;
 using timer = _Scripts.Timer;
+using im = _Scripts.ItemManager;
 using Random = UnityEngine.Random;
 
 public partial class GameManager : MonoBehaviour {
@@ -117,6 +120,11 @@ public partial class GameManager : MonoBehaviour {
         ui.LogText("\"Your turn.\"");
         ui.Speak(gs.PlayerTurn);
     }
+    
+    private partial void UseItem() {
+        ui.Speak(gs.UseItem);
+        //todo play anim here
+    }
 
     private partial void PlayerTurn() {
         wasLastRoundDealers = false;
@@ -131,12 +139,6 @@ public partial class GameManager : MonoBehaviour {
             isPlayerCuffed = 0;
         }
     }
-
-    // private partial void UseItem() {
-    //     ui.Speak(gs.UseItem);
-    //     //todo play anim here
-    //     
-    // }
 
     private partial void DealerTurn() {
         wasLastRoundDealers = true;
@@ -214,18 +216,103 @@ public partial class GameManager : MonoBehaviour {
     }
 
     private partial void StartRound() {
-        ui.LogText("New round!");
         roundNum++;
-        InitHealth();
+        if (roundNum == 2) InitHealth(4);
+        else InitHealth(6);
+        
+        playerItems.Clear();
+        dealerItems.Clear();
+        
+        if (roundNum == 2) {
+            ui.LogText("\"Let's make this more interesting.\"");
+            ui.LogText("\"Draw some items. More items after every load.\"");
+            DrawItems(2);
+        }
+        else DrawItems(4);
         StartLoad();
         
-        Array.Clear(playerItems, 0, playerItems.Length);
-        Array.Clear(dealerItems, 0, dealerItems.Length);
         StartRoundDialogue();
     }
 
     private partial void StartRoundDialogue() {
-        ui.LogText("Start round dialogue here.");
+        //ui.LogText("NEW ROUND STARTING.");
+        ui.LogText("NEW ROUND NEW ROUND NEW ROUND NEW ROUND!");
+        ui.Speak();
+    }
+
+    private partial void DrawItems(int numItems) {
+        if (numItems < 0) {
+            numItems = Random.Range(1, 5);
+        }
+
+        bool dialogueFlag = false;
+
+        for (int i = 0; i < numItems; i++) {
+            if (playerItems.Count < 8) {
+                int itemNum = Random.Range(1, 6);
+                playerItems.Add(new Item(itemNum));
+                ui.LogText("You pull out a " + Item.getUnit((ItemType) itemNum) + ".");
+            }
+            else if (!dialogueFlag){
+                ui.LogText("You pull out a " + Item.getUnit((ItemType) Random.Range(1, 6)) + 
+                           ", but your inventory is full.");
+                ui.LogText("\"Unfortunate.\"");
+                ui.Speak();
+                dialogueFlag = true;
+            }
+            
+            if (dealerItems.Count < 8)
+                dealerItems.Add(new Item(Random.Range(1, 6)));
+        }
+    }
+
+    private partial void UseItem(bool isUserDealer, int itemIndex) {
+        List<Item> itemList;
+        bool actionValid = true;
+        if (isUserDealer) itemList = dealerItems;
+        else itemList = playerItems;
+
+        var item = itemList[itemIndex];
+        
+        switch (item.itemType) {
+            case ItemType.Beer:
+                ejectedShellLive = load.UseChamber();
+                break;
+            case ItemType.Cigs:
+                UpdateHealth(isUserDealer, 1);
+                break;
+            case ItemType.Cuffs:
+                if (isUserDealer) {
+                    isPlayerCuffed = 2;
+                    ui.LogText("The dealer cuffs you to the table.");
+                }
+                else {
+                    isDealerCuffed = 2;
+                    ui.LogText("You hand the cuffs to the dealer, who cuffs himself to the table.");
+                }
+                break;
+            case ItemType.Glass:
+                ui.LogText("You pump the shotgun halfway and look inside.");
+                string strEnd = load.IsChamberLive() ? "live round." : "blank.";
+                ui.LogText("It's a " + strEnd);
+                break;
+            case ItemType.Saw:
+                ui.LogText("You saw the barrel off the shotgun.");
+                if (isSawed) actionValid = false;
+                else isSawed = true;
+                break;
+        }
+        
+        if (actionValid) {
+            ui.LogText("Invalid move.");
+            ui.Speak();
+            return;
+        }
+        
+        itemList[itemIndex] = null;
+        
+        var itemNamesList = itemList.Select(x => Item.getUnit(x.itemType)).ToArray();
+        ui.LogText("You now have the following items: " + String.Join(", ", itemNamesList));
         ui.Speak();
     }
 
@@ -292,11 +379,12 @@ public partial class GameManager : MonoBehaviour {
         ui.Speak();
     }
     
-    public partial void InitHealth() {
-        int amount = Random.Range(2, 5);
+    public partial void InitHealth(int amount) {
+        if (amount < 1) amount = Random.Range(2, 5);
         
         dealerHP = amount;
         playerHP = amount;
+        healthLimit = amount;
         ui.LogText($"The dealer now has {dealerHP} lives."); //todo lives or charges?
         ui.LogText($"You now have {playerHP} lives."); //todo lives or charges?
         ui.Speak();

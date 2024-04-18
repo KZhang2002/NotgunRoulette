@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Numerics;
 using _Scripts;
 using UnityEngine;
@@ -21,8 +22,8 @@ public partial class GameManager : MonoBehaviour {
     private int timesRepeated = 0;
 
     // Round variables
-    private Item[] playerItems;
-    private Item[] dealerItems;
+    private List<Item> playerItems = new List<Item>();
+    private List<Item> dealerItems = new List<Item>();
     private Boolean wasLastRoundDealers;
     
     // Load variables
@@ -36,16 +37,15 @@ public partial class GameManager : MonoBehaviour {
     private int isDealerCuffed = 0; // 0 = not cuffed
     
     // Anim variables
-    private bool lastRoundLive = false;
+    private bool ejectedShellLive = false;
     
     // 1 is tutorial, 2 is normal, 3 is final
     // This is GAME rounds NOT SHOTGUN rounds.
     private int roundNum = 1;
     private int turnNum = 1;
     
-    // Timers
-    // private timer t;
-    // private timer indefT;
+    // Dialogue flags
+    private int itemDraws = 0;
     
 
     [SerializeField] private float stdDelay = 4f;
@@ -88,6 +88,8 @@ public partial class GameManager : MonoBehaviour {
 
     private partial void TutorialStartDialogue();
 
+    private partial void UseItem();
+
     private partial void PlayerTurn();
 
     // private partial void UseItem() {
@@ -109,6 +111,11 @@ public partial class GameManager : MonoBehaviour {
     public partial void NewLoad();
     
     public partial void NewLoad(int numShells, int numLive);
+
+
+    private partial void DrawItems(int numItems);
+
+    private partial void UseItem(bool isUserDealer, int itemIndex);
     
     private partial void StartLoad();
 
@@ -124,5 +131,5 @@ public partial class GameManager : MonoBehaviour {
 
     public partial void SetHealth(bool targetIsDealer, int amount);
 
-    public partial void InitHealth();
+    public partial void InitHealth(int amount);
 }
