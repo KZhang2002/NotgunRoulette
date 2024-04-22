@@ -1,0 +1,449 @@
+
+
+ State changed to: Dialogue
+
+ State changed to: Tutorial
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+You now have 2 lives.
+
+The dealer now has 2 lives.
+
+A panel in the table flips over to reveal its other side. Attached to it are three shotgun shells. One is <color="red">red</color>. The others are <color="blue">blue</color>.
+
+The dealer speaks.
+
+"1 <color="red">live</color> round. 2 <color="blue">blanks</color>."
+
+The dealer starts to load the shells into the shotgun without looking.
+
+"I insert the rounds in an unknown order."
+
+The dealer pumps the shotgun, sets it down on the table, and slides it to you.
+
+"Your turn."
+
+ State changed to: PlayerTurn
+
+ State changed to: PlayerTurn
+
+ State changed to: Fire
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+You raise the gun and point it at the dealer.
+
+You pull the trigger and...
+
+<i>click</i>
+
+Turnover dialogue here.
+
+You put the shotgun back on the table.
+
+ State changed to: Fire
+
+ State changed to: DealerTurn
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+The dealer raises the gun and points it at himself.
+
+The dealer pulls the trigger and...
+
+<i>click</i>
+
+Turnover dialogue here.
+
+The dealer puts the shotgun down.
+
+ State changed to: Fire
+
+ State changed to: DealerTurn
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+The dealer raises the gun and points it at himself.
+
+The dealer pulls the trigger and...
+
+<b>BANG!</b>
+
+The dealer now has 1 life.
+
+Turnover dialogue here.
+
+The dealer puts the shotgun down.
+
+ State changed to: NewLoad
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+The panel in the table flips over.
+
+"3 <color="red">live</color> rounds. 2 <color="blue">blanks</color>."
+
+ State changed to: PlayerTurn
+
+ State changed to: Fire
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+You raise the gun and point it at yourself.
+
+You pull the trigger and...
+
+<i>click</i>
+
+Turnover dialogue here.
+
+You put the shotgun back on the table.
+
+ State changed to: PlayerTurn
+
+ State changed to: Fire
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+You raise the gun and point it at the dealer.
+
+You pull the trigger and...
+
+<b>BANG!</b>
+
+The dealer now has 0 lives.
+
+ State changed to: NewRound
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+The dealer now has 4 lives.
+
+You now have 4 lives.
+
+"Let's make this more interesting."
+
+"Draw some items. More items after every load."
+
+You pull out a pack of cigarettes.
+
+You pull out a magnifying glass.
+
+The panel in the table flips over.
+
+"4 <color="red">live</color> rounds. 4 <color="blue">blanks</color>."
+
+NEW ROUND NEW ROUND NEW ROUND NEW ROUND!
+
+ State changed to: PlayerTurn
+
+ State changed to: Fire
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+You raise the gun and point it at the dealer.
+
+You pull the trigger and...
+
+<b>BANG!</b>
+
+The dealer now has 3 lives.
+
+Turnover dialogue here.
+
+You put the shotgun back on the table.
+
+ State changed to: Fire
+
+ State changed to: DealerTurn
+
+The dealer raises the gun and points it at himself.
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+The dealer pulls the trigger and...
+
+<b>BANG!</b>
+
+The dealer now has 2 lives.
+
+Turnover dialogue here.
+
+The dealer puts the shotgun down.
+
+ State changed to: PlayerTurn
+
+ State changed to: Fire
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+You raise the gun and point it at yourself.
+
+You pull the trigger and...
+
+<i>click</i>
+
+Turnover dialogue here.
+
+You put the shotgun back on the table.
+
+ State changed to: PlayerTurn
+
+ State changed to: Fire
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+You raise the gun and point it at yourself.
+
+You pull the trigger and...
+
+<b>BANG!</b>
+
+You now have 3 lives.
+
+Turnover dialogue here.
+
+
+
+You put the shotgun back on the table.
+
+ State changed to: Fire
+
+ State changed to: DealerTurn
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+The dealer raises the gun and points it at himself.
+
+The dealer pulls the trigger and...
+
+<i>click</i>
+
+Turnover dialogue here.
+
+The dealer puts the shotgun down.
+
+ State changed to: Fire
+
+ State changed to: DealerTurn
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+The dealer raises the gun and points it at himself.
+
+The dealer pulls the trigger and...
+
+<i>click</i>
+
+Turnover dialogue here.
+
+The dealer puts the shotgun down.
+
+ State changed to: Fire
+
+ State changed to: DealerTurn
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+The dealer raises the gun and points it at himself.
+
+The dealer pulls the trigger and...
+
+<b>BANG!</b>
+
+The dealer now has 1 life.
+
+Turnover dialogue here.
+
+The dealer puts the shotgun down.
+
+ State changed to: PlayerTurn
+
+ State changed to: Fire
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+You raise the gun and point it at the dealer.
+
+You pull the trigger and...
+
+<i>click</i>
+
+Turnover dialogue here.
+
+You put the shotgun back on the table.
+
+ State changed to: NewLoad
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+The panel in the table flips over.
+
+"3 <color="red">live</color> rounds. 3 <color="blue">blanks</color>."
+
+ State changed to: PlayerTurn
+
+ State changed to: Fire
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+You raise the gun and point it at the dealer.
+
+You pull the trigger and...
+
+<i>click</i>
+
+Turnover dialogue here.
+
+You put the shotgun back on the table.
+
+ State changed to: Fire
+
+ State changed to: DealerTurn
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+The dealer raises the gun and points it at himself.
+
+The dealer pulls the trigger and...
+
+<i>click</i>
+
+Turnover dialogue here.
+
+The dealer puts the shotgun down.
+
+ State changed to: Fire
+
+ State changed to: DealerTurn
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+The dealer raises the gun and points it at himself.
+
+The dealer pulls the trigger and...
+
+<b>BANG!</b>
+
+The dealer now has 0 lives.
+
+ State changed to: NewRound
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+ State changed to: Dialogue
+
+The dealer now has 6 lives.
+
+You now have 6 lives.
+
+You pull out a pack of cigarettes.
+
+You pull out a pair of handcuffs.
+
+You pull out a magnifying glass.
+
+You pull out a .
+
+The panel in the table flips over.
+
+"1 <color="red">live</color> round. 2 <color="blue">blanks</color>."
+
+NEW ROUND NEW ROUND NEW ROUND NEW ROUND!
+
+ State changed to: PlayerTurn
